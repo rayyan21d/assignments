@@ -5,6 +5,22 @@
  */
 
 function sleep(milliseconds) {
+
+    return new Promise((resolve, reject) => {
+        setTimeout(() => {
+            // console.log("resolving")
+            resolve();
+        }, milliseconds);
+
+    })
+
+
 }
+
+const a = sleep(8000).then((data) => {
+
+    // The logic that must work after the promise is resolved..
+    // console.log("After resolved")
+})
 
 module.exports = sleep;
