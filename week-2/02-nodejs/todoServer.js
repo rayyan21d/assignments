@@ -39,11 +39,109 @@
 
   Testing the server - run `npm run test-todoServer` command in terminal
  */
-  const express = require('express');
-  const bodyParser = require('body-parser');
-  
-  const app = express();
-  
-  app.use(bodyParser.json());
-  
-  module.exports = app;
+const express = require('express');
+const bodyParser = require('body-parser');
+const fs = require('fs');
+
+const app = express();
+
+app.use(bodyParser.json());
+
+const aTodo = {
+  'title': "", 'description': "", 'status': 'ok', 'ID': 123, 'createdAt': `${new Date().getTime()}`, 'LastupdatedAt': `${new Date().getTime() / 10000}`
+}
+const todos = [{ 'title': "Study", 'description': "Lorem ipsum text description of a task", 'completed': 'false', 'createdAt': `1705299694434`, 'LastupdatedAt': `1705299752625` }]
+
+app.get("/todos", (req, res) => {
+  res.status(200).json({ todos })
+})
+
+app.get("/todos/:id", (req, res) => {
+  let { id } = req.params;
+
+  //search for id == ID from todos array
+  //if found return 200 ok
+  //else return 404 not found
+
+  todos.forEach((element) => {
+    if (element.ID.toString() == id) {
+      res.status(200).json(element)
+    }
+    else {
+      res.status(404).json("Not Found")
+    }
+  })
+
+
+})
+
+app.post("/todos", (req, res) => {
+
+  const { body } = req;
+  console.log(body);
+  // verify if the body follows the same format or not
+  // if not return 400 bad request
+  // else add the body to the todos array
+  // return 201 created with the id of the created todo item in json format
+
+
+  const newTodo = {
+    ...body,
+    createdAt: `${new Date().getTime()}`,
+    LastupdatedAt: `${new Date().getTime()}`
+  }
+
+  // console.log(newTodo)
+  todos.push(newTodo);
+
+  res.status(201).json({ id: newTodo.ID })
+
+
+
+})
+
+app.put("/todos/:id", (req, res) => {
+
+  let { id } = req.params;
+  const { body } = req;
+
+  todos.forEach((element) => {
+    if (element.ID.toString() == id) {
+      element.title = body.title;
+      element.description = body.description;
+      element.completed = body.completed;
+      element.LastupdatedAt = `${new Date().getTime()}`
+      res.status(200).json(element)
+    }
+    else {
+      res.status(404).json("Not Found")
+    }
+  })
+
+
+
+
+
+})
+
+app.delete("/todos/:id", (req, res) => {
+
+  let { id } = req.params;
+
+  todos.forEach((element) => {
+    if (element.ID.toString() == id) {
+      todos.pop(element);
+      res.status(200).json(element)
+    }
+    else {
+      res.status(404).json("Not Found")
+    }
+  })
+
+
+})
+
+
+app.listen(3000, () => { console.log("The server has started at port 3000") })
+
+module.exports = app;

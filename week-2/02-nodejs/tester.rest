@@ -1,0 +1,30 @@
+GET http://localhost:3000/todos
+
+###
+
+GET http://localhost:3000/todos/5000
+
+###
+
+POST http://localhost:3000/todos
+Content-Type: application/json
+
+{
+    "title": "John Mama2",
+    "description": "This is ma task2",
+    "completed":"true"
+}
+
+###
+
+POST http://localhost:3000/todos/smth
+Content-Type: application/json
+
+{
+    "name": "John Doe",
+    "email": "rayyan9290@gmail.com",
+    "password": "123456",
+    "memberId": "23"
+}
+
+
