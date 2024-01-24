@@ -12,20 +12,26 @@ const app = express();
 // clears every one second
 
 let numberOfRequestsForUser = {};
+// An object which has userIds and their counts
 setInterval(() => {
   numberOfRequestsForUser = {};
 }, 1000)
 
 function rateLimiter(req, res, next) {
 
+  // In the real-world this is doen by IP checks
   const userId = req.headers['user-id'];
   if (numberOfRequestsForUser[userId] && numberOfRequestsForUser[userId] >= 5) {
+    // If the user exists and request goes above 5 in a second then this
     res.status(404).json({ msg: 'Too many requests' });
   } else {
+    // If user exists
     if (numberOfRequestsForUser[userId]) {
+      // userId already exists then
       numberOfRequestsForUser[userId]++;
     } else {
       numberOfRequestsForUser[userId] = 1;
+      next();
     }
     next();
   }

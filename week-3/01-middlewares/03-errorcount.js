@@ -23,9 +23,11 @@ app.get('/errorCount', function (req, res) {
   res.status(200).json({ errorCount });
 });
 
+// Error handling Middle Ware written at the end
 app.use(function (err, res, req, next) {
 
   errorCount++;
+  // This will stop express from throwing the info of the server or the 500 error smtg
   res.status(404).json({ msg: "Sorry, Something is up." })
   // console.log(errorCount)
 
