@@ -16,7 +16,7 @@
 </body>
   <script>
 
-    let state =[
+    let Localstate =[
       {
       title:"Go to Gym",
       description: "Go to gym at 6:00 AM",
@@ -29,21 +29,31 @@
     }
     ]
 
+    window.setInterval( async function(){
+      const res = await fetch("https://sum-server.100xdevs.com/todos")
+      const json = await res.json()
+      console.log(json)
+
+      const todos = json.todos
+      console.log(todos)
+      UpdateDomAccState(todos)
+    }, 3000)
+
     function handleClick(){
 
       const title = document.getElementById("title").value;
       const descrption = document.getElementById("description").value;
 
       if(title && descrption){
-        state.push({
+        Localstate.push({
           title: title,
           description: descrption,
-          id: state.length + 1
+          id: Localstate.length + 1
         })
 
       }
 
-      UpdateDomAccState(state)
+      UpdateDomAccState(Localstate)
 
     }
 
