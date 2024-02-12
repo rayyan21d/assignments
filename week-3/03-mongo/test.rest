@@ -1,0 +1,36 @@
+
+
+POST http://localhost:3000/user/signup
+Content-Type:  application/json
+username: 'test123uogid'
+password: 'abcdefgfsvsdad'
+
+{
+    "username":"test123uogid",
+    "password": "abcdefgfsvsdad"
+}
+
+
+###
+POST http://localhost:3000/admin/courses
+Content-Type:  application/json
+username: "admin2"
+password: "somepassword"
+
+{
+    "username":"test123uogid",
+    "password": "abcdefgfsvsdad"
+}
+
+###
+POST http://localhost:3000/admin/courses
+Content-Type:  application/json
+username: "admin2"
+password: "somepassword"
+
+{ 
+    "title": "course title", 
+    "description" : "course description", 
+    "price" : 100, 
+    "imageLink": "https://linktoimage.com" 
+}

@@ -25,6 +25,24 @@
       // 1. added
       // 2. deleted
       // 3. updated
+
+      for(let i=0; i<newTodos.length; i++){
+
+        for(let j=0;j<oldTodoState.length;j++){
+          
+          if(newTodos[i].id === oldTodoState[j].id){
+            if(newTodos[i].title !== oldTodoState[j].title || newTodos[i].description !== oldTodoState[j].description){
+              updated.push(newTodos[i]);
+            }
+          }
+          
+          if(!oldTodoState[j]){
+
+        }
+
+      }
+
+
       const added = [];
       const deleted = [];
       const updated = [];
