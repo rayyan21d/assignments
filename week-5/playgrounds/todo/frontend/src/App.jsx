@@ -12,7 +12,7 @@ function App() {
 
  
 
-  window.setTimeout(HitBackend, 9000)
+  window.setTimeout(HitBackend, 2000)
 
   async function HitBackend(){
     await fetch("http://localhost:3000/todos").then(
