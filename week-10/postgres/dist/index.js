@@ -152,11 +152,13 @@ function insertIntoAddresses(userId, city, country, street, pincode) {
             connectionString: "postgresql://rayyan9290:zwlFQY4xfR3u@ep-crimson-mountain-a53p41f2.us-east-2.aws.neon.tech/neondb?sslmode=require"
         });
         yield client.connect();
-        const insertQuery = 'INSERT INTO addresses(user_id, city, country, street, pincode) VALUES($1, $2, $3, $4, $5)';
+        const insertQuery = 'INSERT INTO addresses(user_id, city, country, street, pincode) VALUES($1, $2, $3, $4, $5) RETURNING *;';
         const values = [userId, city, country, street, pincode];
         try {
             const result = yield client.query(insertQuery, values);
             console.log(result);
+            console.log(result.fields);
+            console.log(result.rows);
         }
         catch (err) {
             console.log(err);
@@ -172,12 +174,12 @@ function getUserDetails(userId) {
             connectionString: "postgresql://rayyan9290:zwlFQY4xfR3u@ep-crimson-mountain-a53p41f2.us-east-2.aws.neon.tech/neondb?sslmode=require"
         });
         yield client.connect();
-        const queryString = `SELECT u.id, u.username, u.email, a.city, a.country, a.street, a.pincode 
+        const queryString = `SELECT *
         FROM users u 
         JOIN addresses a ON u.id = a.id WHERE u.id = $1;`;
         const values = [userId];
         try {
-            const response = yield client.query(queryString, values);
+            const response = yield client.query({ text: queryString, values: values, rowMode: 'array' });
             console.log(response);
         }
         catch (err) {
@@ -192,3 +194,4 @@ function getUserDetails(userId) {
 //     insertIntoAddresses(1, 'Hyd', 'India', 'Street 1', '54000').catch(console.error);
 // })
 getUserDetails(1).catch(console.error);
+// insertIntoAddresses(1, 'Noida', 'Bharat', 'Street 4', '784000').catch(console.error);

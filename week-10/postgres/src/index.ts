@@ -187,12 +187,15 @@ async function insertIntoAddresses(userId: number, city: string, country: string
 })
     await client.connect();
 
-    const insertQuery = 'INSERT INTO addresses(user_id, city, country, street, pincode) VALUES($1, $2, $3, $4, $5)';
+    const insertQuery = 'INSERT INTO addresses(user_id, city, country, street, pincode) VALUES($1, $2, $3, $4, $5) RETURNING *;';
     const values = [userId, city, country, street, pincode];
     try{
 
-        const result = await client.query(insertQuery, values);
+        const result = await client.query(insertQuery, values,
+        );
         console.log(result);
+        console.log(result.fields);
+        console.log(result.rows);
 
     }catch(err){
 
@@ -215,13 +218,13 @@ async function getUserDetails(userId: number){
 
     await client.connect();
 
-    const queryString = `SELECT u.id, u.username, u.email, a.city, a.country, a.street, a.pincode 
+    const queryString = `SELECT u.id, u.username, u.email, a.city, a.country, a.street, a.pincode
         FROM users u 
         JOIN addresses a ON u.id = a.id WHERE u.id = $1;`
     const values = [userId];
 
     try{
-        const response = await client.query(queryString, values);
+        const response = await client.query({text: queryString, values: values, rowMode: 'array'});
         console.log(response);
 
     }catch(err){
@@ -239,7 +242,7 @@ async function getUserDetails(userId: number){
 getUserDetails(1).catch(console.error);
 
 
-
+// insertIntoAddresses(1, 'Noida', 'Bharat', 'Street 4', '784000').catch(console.error);
 
 
 
