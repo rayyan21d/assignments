@@ -4,3 +4,4 @@ week-5/playgrounds/todo/backend/node_modules/*
 week-10/node_modules/*
 week-10/postgres/node_modules/*
 week-10/prisma-ExpressiFied/node_modules/*
+.env
